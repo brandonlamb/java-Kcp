@@ -25,7 +25,8 @@ public class KcpPingPongExampleServer implements KcpListener {
         channelConfig.setMtu(1400);
         //channelConfig.setFecDataShardCount(10);
         //channelConfig.setFecParityShardCount(3);
-        channelConfig.setAckNoDelay(true);
+        //channelConfig.setAckNoDelay(true);
+        channelConfig.setNodelay(true);
         channelConfig.setInterval(40);
         channelConfig.setNocwnd(true);
         channelConfig.setCrc32Check(true);

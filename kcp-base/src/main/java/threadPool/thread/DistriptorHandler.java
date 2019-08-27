@@ -11,10 +11,20 @@ public class DistriptorHandler
 	private ITask task;
 
 
+
 	public void execute()
 	{
+		long start = System.currentTimeMillis();
 		try {
 			this.task.execute();
+
+			long now = System.currentTimeMillis();
+			Statistics statistics = Statistics.threadLocal.get();
+			if(now-start>2){
+				System.out.println(Thread.currentThread().getName()+" "+task.getClass().getSimpleName()+"  "+(now-start));
+				System.out.println(statistics);
+			}
+			statistics.clear();
 			//得主动释放内存
 			this.task = null;
 		} catch (Throwable throwable) {

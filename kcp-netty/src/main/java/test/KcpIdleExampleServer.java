@@ -26,9 +26,11 @@ public class KcpIdleExampleServer implements KcpListener {
         //channelConfig.setFecDataShardCount(10);
         //channelConfig.setFecParityShardCount(3);
         channelConfig.setAckNoDelay(false);
-        channelConfig.setInterval(40);
+        channelConfig.setFastFlush(false);
+        channelConfig.setInterval(10);
         channelConfig.setNocwnd(true);
         channelConfig.setCrc32Check(true);
+        channelConfig.setAutoSetConv(true);
         //channelConfig.setTimeoutMillis(10000);
         KcpServer kcpServer = new KcpServer();
         kcpServer.init(Runtime.getRuntime().availableProcessors(), kcpIdleExampleServer, channelConfig, 10020);

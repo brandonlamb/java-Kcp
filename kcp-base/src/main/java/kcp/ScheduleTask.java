@@ -36,6 +36,8 @@ public class ScheduleTask implements ITask,Runnable, TimerTask {
     @Override
     public void execute() {
         try {
+            //Statistics statistics = Statistics.threadLocal.get();
+            //statistics.schedule++;
             long now = System.currentTimeMillis();
             //判断连接是否关闭
             if (ukcp.getTimeoutMillis() != 0 && now - ukcp.getTimeoutMillis() > ukcp.getLastRecieveTime()) {
@@ -67,7 +69,9 @@ public class ScheduleTask implements ITask,Runnable, TimerTask {
             if(ukcp.canSend(false)
                     &&!ukcp.getSendList().isEmpty()
             ){
+                System.out.println("写事件");
                 ukcp.notifyWriteEvent();
+                //statistics.notifyWriteEvent++;
             }
         } catch (Throwable e) {
             e.printStackTrace();

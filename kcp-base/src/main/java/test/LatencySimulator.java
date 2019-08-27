@@ -108,21 +108,21 @@ public class LatencySimulator {
 
     public static void main(String[] args) {
         LatencySimulator latencySimulator = new LatencySimulator();
-        try {
-            latencySimulator.test(0);
-            latencySimulator.test(1);
-            latencySimulator.test(2);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        //latencySimulator.BenchmarkFlush();
+        //try {
+        //    latencySimulator.test(0);
+        //    latencySimulator.test(1);
+        //    latencySimulator.test(2);
+        //} catch (Exception e) {
+        //    e.printStackTrace();
+        //}
+        latencySimulator.BenchmarkFlush();
     }
 
 
     //测试flush性能
     public void BenchmarkFlush(){
         Kcp kcp = new Kcp(1, (data, kcp1) -> {});
-        for (int i = 0; i < 1000; i++) {
+        for (int i = 0; i < 1024; i++) {
             Kcp.Segment segment =  Kcp.Segment.createSegment(null);
             kcp.sndBufItr.add(segment);
         }
@@ -137,10 +137,10 @@ public class LatencySimulator {
         }
 
         long start= System.nanoTime();
-        for (int i = 0; i < 200000; i++) {
+        for (int i = 0; i < 300000; i++) {
             kcp.flush(false,System.currentTimeMillis());
         }
-        System.out.println((System.nanoTime()-start)/200000);
+        System.out.println((System.nanoTime()-start)/300000);
     }
 
 

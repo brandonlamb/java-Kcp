@@ -34,13 +34,14 @@ public class LockStepSynchronizationServer implements KcpListener
         channelConfig.setMtu(500);
         //channelConfig.setFecDataShardCount(10);
         //channelConfig.setFecParityShardCount(3);
-        channelConfig.setAckNoDelay(false);
-        channelConfig.setInterval(40);
+        //channelConfig.setAckNoDelay(true);
+        channelConfig.setNodelay(true);
+        channelConfig.setInterval(10);
         channelConfig.setNocwnd(true);
-        channelConfig.setCrc32Check(true);
+        //channelConfig.setCrc32Check(true);
         channelConfig.setTimeoutMillis(10000);
         KcpServer kcpServer = new KcpServer();
-        kcpServer.init(1, lockStepSynchronizationServer, channelConfig, 10009);
+        kcpServer.init(Runtime.getRuntime().availableProcessors(), lockStepSynchronizationServer, channelConfig, 10009);
 
         for (int i = 0; i < 1; i++) {
             lockStepSynchronizationServer.disruptorExecutorPool.createDisruptorProcessor("logic-"+i);

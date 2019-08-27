@@ -27,7 +27,8 @@ public class KcpIdleExampleClient implements KcpListener {
         //channelConfig.setFecDataShardCount(10);
         //channelConfig.setFecParityShardCount(3);
         channelConfig.setAckNoDelay(false);
-        channelConfig.setInterval(40);
+        channelConfig.setFastFlush(false);
+        channelConfig.setInterval(10);
         channelConfig.setNocwnd(true);
         channelConfig.setCrc32Check(true);
         //channelConfig.setTimeoutMillis(10000);
@@ -40,6 +41,7 @@ public class KcpIdleExampleClient implements KcpListener {
                     e.printStackTrace();
                 }
             }
+            channelConfig.setConv(i);
             KcpIdleExampleClient kcpIdleExampleClient = new KcpIdleExampleClient();
             kcpClient.connect(new InetSocketAddress("127.0.0.1", 10020), channelConfig, kcpIdleExampleClient);
         }

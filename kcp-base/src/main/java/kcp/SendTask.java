@@ -4,6 +4,7 @@ import io.netty.buffer.ByteBuf;
 import io.netty.util.Recycler;
 import org.jctools.queues.MpscArrayQueue;
 import threadPool.task.ITask;
+import threadPool.thread.Statistics;
 
 import java.io.IOException;
 
@@ -17,7 +18,7 @@ public class SendTask implements ITask {
 
     private Ukcp kcp;
 
-    private static final Recycler<SendTask> RECYCLER = new Recycler<SendTask>(2<<16) {
+    private static final Recycler<SendTask> RECYCLER = new Recycler<SendTask>() {
         @Override
         protected SendTask newObject(Handle<SendTask> handle) {
             return new SendTask(handle);
@@ -39,6 +40,8 @@ public class SendTask implements ITask {
     @Override
     public void execute() {
         try {
+            Statistics statistics = Statistics.threadLocal.get();
+            statistics.send++;
             //查看连接状态
             if(!kcp.isActive()){
                 return;
@@ -65,6 +68,7 @@ public class SendTask implements ITask {
                 //System.out.println(next);
                 //System.out.println("耗时"+(System.currentTimeMillis()-now));
                 kcp.setTsUpdate(now+next);
+                statistics.notifySchedule++;
             }
         }catch (Throwable e){
             e.printStackTrace();

@@ -32,7 +32,7 @@ public class LockStepSynchronizationClient implements KcpListener
         }
 
         KcpClient kcpClient = new KcpClient();
-        kcpClient.init(Runtime.getRuntime().availableProcessors());
+        kcpClient.init(1);
 
         ChannelConfig channelConfig = new ChannelConfig();
         channelConfig.setFastresend(2);
@@ -41,10 +41,11 @@ public class LockStepSynchronizationClient implements KcpListener
         channelConfig.setMtu(500);
         //channelConfig.setFecDataShardCount(10);
         //channelConfig.setFecParityShardCount(3);
-        channelConfig.setAckNoDelay(false);
-        channelConfig.setInterval(40);
+        //channelConfig.setAckNoDelay(true);
+        channelConfig.setNodelay(true);
+        channelConfig.setInterval(10);
         channelConfig.setNocwnd(true);
-        channelConfig.setCrc32Check(true);
+        //channelConfig.setCrc32Check(true);
         channelConfig.setTimeoutMillis(10000);
 
         LockStepSynchronizationClient lockStepSynchronizationClient = new LockStepSynchronizationClient();

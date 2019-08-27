@@ -18,7 +18,7 @@ public class RecieveTask implements ITask {
 
     private Ukcp kcp;
 
-    private static final Recycler<RecieveTask> RECYCLER = new Recycler<RecieveTask>(2<<16) {
+    private static final Recycler<RecieveTask> RECYCLER = new Recycler<RecieveTask>() {
         @Override
         protected RecieveTask newObject(Handle<RecieveTask> handle) {
             return new RecieveTask(handle);
@@ -39,6 +39,8 @@ public class RecieveTask implements ITask {
 
     @Override
     public void execute() {
+        Statistics statistics = Statistics.threadLocal.get();
+        statistics.recieve++;
         CodecOutputList<ByteBuf> bufList = null;
         try {
             //Thread.sleep(1000);
@@ -82,6 +84,7 @@ public class RecieveTask implements ITask {
             //判断写事件
             if (kcp.canSend(false)&&!kcp.getSendList().isEmpty()) {
                 kcp.notifyWriteEvent();
+                statistics.notifyWriteEvent++;
             }
         } catch (Throwable e) {
             e.printStackTrace();
