@@ -6,179 +6,179 @@ package kcp;
  */
 public class ChannelConfig {
 
-    private int conv;
-    private boolean nodelay;
-    private int interval = Kcp.IKCP_INTERVAL;
-    private int fastresend;
-    private boolean nocwnd;
-    private int sndwnd = Kcp.IKCP_WND_SND;
-    private int rcvwnd = Kcp.IKCP_WND_RCV;
-    private int mtu = Kcp.IKCP_MTU_DEF;
-    //超时时间 超过一段时间没收到消息断开连接
-    private long timeoutMillis;
-    //TODO 可能有bug还未测试
-    private boolean stream;
+  /**
+   * 在协议的第一字节标记为kcp对象 用于与非可靠udp整合
+   **/
+  public boolean KcpTag;
+  private int conv;
+  private boolean nodelay;
+  private int interval = Kcp.IKCP_INTERVAL;
+  private int fastresend;
+  private boolean nocwnd;
+  private int sndwnd = Kcp.IKCP_WND_SND;
+  private int rcvwnd = Kcp.IKCP_WND_RCV;
+  private int mtu = Kcp.IKCP_MTU_DEF;
+  //超时时间 超过一段时间没收到消息断开连接
+  private long timeoutMillis;
+  //TODO 可能有bug还未测试
+  private boolean stream;
+  //下面为新增参数
+  private int fecDataShardCount;
+  private int fecParityShardCount;
+  //收到包立刻回传ack包
+  private boolean ackNoDelay = false;
+  //发送包立即调用flush 延迟低一些  cpu增加  如果interval值很小 建议关闭该参数
+  private boolean fastFlush = true;
+  //crc32校验
+  private boolean crc32Check = false;
+  private boolean autoSetConv = false;
+  //增加ack包回复成功率 填 /8/16/32
+  private int ackMaskSize = 0;
+  /**
+   * 使用conv确定一个channel 还是使用 socketAddress确定一个channel
+   **/
+  private boolean useConvChannel = false;
 
-    //下面为新增参数
-    private int fecDataShardCount;
-    private int fecParityShardCount;
-    //收到包立刻回传ack包
-    private boolean ackNoDelay = false;
-    //发送包立即调用flush 延迟低一些  cpu增加  如果interval值很小 建议关闭该参数
-    private boolean fastFlush = true;
-    //crc32校验
-    private boolean crc32Check = false;
+  public void nodelay(boolean nodelay, int interval, int resend, boolean nc) {
+    this.nodelay = nodelay;
+    this.interval = interval;
+    this.fastresend = resend;
+    this.nocwnd = nc;
+  }
 
-    private boolean autoSetConv = false;
-    //增加ack包回复成功率 填 /8/16/32
-    private int ackMaskSize = 0;
-    /**使用conv确定一个channel 还是使用 socketAddress确定一个channel**/
-    private boolean useConvChannel=false;
-    /**在协议的第一字节标记为kcp对象 用于与非可靠udp整合**/
-    public boolean KcpTag;
+  public boolean isNodelay() {
+    return nodelay;
+  }
 
+  public int getConv() {
+    return conv;
+  }
 
-    public void nodelay(boolean nodelay, int interval, int resend, boolean nc){
-        this.nodelay = nodelay;
-        this.interval = interval;
-        this.fastresend = resend;
-        this.nocwnd=nc;
-    }
+  public void setConv(int conv) {
+    this.conv = conv;
+  }
 
+  public int getInterval() {
+    return interval;
+  }
 
-    public boolean isNodelay() {
-        return nodelay;
-    }
+  public int getFastresend() {
+    return fastresend;
+  }
 
-    public int getConv() {
-        return conv;
-    }
+  public boolean isNocwnd() {
+    return nocwnd;
+  }
 
-    public void setConv(int conv) {
-        this.conv = conv;
-    }
+  public int getSndwnd() {
+    return sndwnd;
+  }
 
-    public int getInterval() {
-        return interval;
-    }
+  public void setSndwnd(int sndwnd) {
+    this.sndwnd = sndwnd;
+  }
 
-    public int getFastresend() {
-        return fastresend;
-    }
+  public int getRcvwnd() {
+    return rcvwnd;
+  }
 
-    public boolean isNocwnd() {
-        return nocwnd;
-    }
+  public void setRcvwnd(int rcvwnd) {
+    this.rcvwnd = rcvwnd;
+  }
 
-    public int getSndwnd() {
-        return sndwnd;
-    }
+  public boolean isAutoSetConv() {
+    return autoSetConv;
+  }
 
-    public void setSndwnd(int sndwnd) {
-        this.sndwnd = sndwnd;
-    }
+  public void setAutoSetConv(boolean autoSetConv) {
+    this.autoSetConv = autoSetConv;
+  }
 
-    public int getRcvwnd() {
-        return rcvwnd;
-    }
+  public int getMtu() {
+    return mtu;
+  }
 
-    public boolean isAutoSetConv() {
-        return autoSetConv;
-    }
+  public void setMtu(int mtu) {
+    this.mtu = mtu;
+  }
 
-    public void setAutoSetConv(boolean autoSetConv) {
-        this.autoSetConv = autoSetConv;
-    }
+  public long getTimeoutMillis() {
+    return timeoutMillis;
+  }
 
-    public void setRcvwnd(int rcvwnd) {
-        this.rcvwnd = rcvwnd;
-    }
+  public void setTimeoutMillis(long timeoutMillis) {
+    this.timeoutMillis = timeoutMillis;
+  }
 
-    public int getMtu() {
-        return mtu;
-    }
+  public boolean isStream() {
+    return stream;
+  }
 
-    public void setMtu(int mtu) {
-        this.mtu = mtu;
-    }
+  public void setStream(boolean stream) {
+    this.stream = stream;
+  }
 
-    public long getTimeoutMillis() {
-        return timeoutMillis;
-    }
+  public int getFecDataShardCount() {
+    return fecDataShardCount;
+  }
 
-    public void setTimeoutMillis(long timeoutMillis) {
-        this.timeoutMillis = timeoutMillis;
-    }
+  public void setFecDataShardCount(int fecDataShardCount) {
+    this.fecDataShardCount = fecDataShardCount;
+  }
 
-    public boolean isStream() {
-        return stream;
-    }
+  public int getFecParityShardCount() {
+    return fecParityShardCount;
+  }
 
-    public void setStream(boolean stream) {
-        this.stream = stream;
-    }
+  public void setFecParityShardCount(int fecParityShardCount) {
+    this.fecParityShardCount = fecParityShardCount;
+  }
 
-    public int getFecDataShardCount() {
-        return fecDataShardCount;
-    }
+  public boolean isAckNoDelay() {
+    return ackNoDelay;
+  }
 
-    public void setFecDataShardCount(int fecDataShardCount) {
-        this.fecDataShardCount = fecDataShardCount;
-    }
+  public void setAckNoDelay(boolean ackNoDelay) {
+    this.ackNoDelay = ackNoDelay;
+  }
 
-    public int getFecParityShardCount() {
-        return fecParityShardCount;
-    }
+  public boolean isFastFlush() {
+    return fastFlush;
+  }
 
-    public void setFecParityShardCount(int fecParityShardCount) {
-        this.fecParityShardCount = fecParityShardCount;
-    }
+  public void setFastFlush(boolean fastFlush) {
+    this.fastFlush = fastFlush;
+  }
 
-    public boolean isAckNoDelay() {
-        return ackNoDelay;
-    }
+  public boolean isCrc32Check() {
+    return crc32Check;
+  }
 
-    public void setAckNoDelay(boolean ackNoDelay) {
-        this.ackNoDelay = ackNoDelay;
-    }
+  public void setCrc32Check(boolean crc32Check) {
+    this.crc32Check = crc32Check;
+  }
 
-    public boolean isFastFlush() {
-        return fastFlush;
-    }
+  public int getAckMaskSize() {
+    return ackMaskSize;
+  }
 
-    public void setFastFlush(boolean fastFlush) {
-        this.fastFlush = fastFlush;
-    }
+  public void setAckMaskSize(int ackMaskSize) {
+    this.ackMaskSize = ackMaskSize;
+  }
 
-    public boolean isCrc32Check() {
-        return crc32Check;
-    }
+  public boolean isUseConvChannel() {
+    return useConvChannel;
+  }
 
-    public int getAckMaskSize() {
-        return ackMaskSize;
-    }
+  public void setUseConvChannel(boolean useConvChannel) {
+    this.useConvChannel = useConvChannel;
+  }
 
-    public void setAckMaskSize(int ackMaskSize) {
-        this.ackMaskSize = ackMaskSize;
-    }
+  public boolean isKcpTag() {
+    return KcpTag;
+  }
 
-    public void setCrc32Check(boolean crc32Check) {
-        this.crc32Check = crc32Check;
-    }
-
-    public boolean isUseConvChannel() {
-        return useConvChannel;
-    }
-
-    public void setUseConvChannel(boolean useConvChannel) {
-        this.useConvChannel = useConvChannel;
-    }
-
-    public boolean isKcpTag() {
-        return KcpTag;
-    }
-
-    public void setKcpTag(boolean kcpTag) {
-        KcpTag = kcpTag;
-    }
+  public void setKcpTag(boolean kcpTag) {
+    KcpTag = kcpTag;
+  }
 }

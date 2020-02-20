@@ -1,12 +1,12 @@
 package kcp;
 
-import io.netty.buffer.ByteBuf;
-import io.netty.channel.socket.DatagramPacket;
-
 import java.net.SocketAddress;
 import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+
+import io.netty.buffer.ByteBuf;
+import io.netty.channel.socket.DatagramPacket;
 
 /**
  * 根据conv确定一个session
@@ -15,32 +15,32 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class ConvChannelManager implements IChannelManager {
 
-    private int convIndex;
+  private int convIndex;
+  private Map<Integer, Ukcp> ukcpMap = new ConcurrentHashMap<>();
 
-    public ConvChannelManager(int convIndex) {
-        this.convIndex = convIndex;
-    }
+  public ConvChannelManager(int convIndex) {
+    this.convIndex = convIndex;
+  }
 
-    private Map<Integer,Ukcp> ukcpMap = new ConcurrentHashMap<>();
-    @Override
-    public Ukcp get(DatagramPacket msg) {
-        ByteBuf byteBuf = msg.content();
-        int conv =byteBuf.getInt(byteBuf.readerIndex()+convIndex);
-        return ukcpMap.get(conv);
-    }
+  @Override
+  public Ukcp get(DatagramPacket msg) {
+    ByteBuf byteBuf = msg.content();
+    int conv = byteBuf.getInt(byteBuf.readerIndex() + convIndex);
+    return ukcpMap.get(conv);
+  }
 
-    @Override
-    public void New(SocketAddress socketAddress, Ukcp ukcp) {
-        ukcpMap.put(ukcp.getConv(),ukcp);
-    }
+  @Override
+  public void New(SocketAddress socketAddress, Ukcp ukcp) {
+    ukcpMap.put(ukcp.getConv(), ukcp);
+  }
 
-    @Override
-    public void del(Ukcp ukcp) {
-        ukcpMap.remove(ukcp.getConv());
-    }
+  @Override
+  public void del(Ukcp ukcp) {
+    ukcpMap.remove(ukcp.getConv());
+  }
 
-    @Override
-    public Collection<Ukcp> getAll() {
-        return this.ukcpMap.values();
-    }
+  @Override
+  public Collection<Ukcp> getAll() {
+    return this.ukcpMap.values();
+  }
 }
