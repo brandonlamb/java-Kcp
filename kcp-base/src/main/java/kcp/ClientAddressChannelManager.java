@@ -21,12 +21,12 @@ public class ClientAddressChannelManager implements IChannelManager {
   }
 
   @Override
-  public void New(SocketAddress socketAddress, Ukcp ukcp) {
+  public void add(SocketAddress socketAddress, Ukcp ukcp) {
     ukcpMap.put(socketAddress, ukcp);
   }
 
   @Override
-  public void del(Ukcp ukcp) {
+  public void remove(Ukcp ukcp) {
     ukcpMap.remove(ukcp.user().getLocalAddress());
   }
 

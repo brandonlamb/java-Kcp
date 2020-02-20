@@ -50,7 +50,7 @@ public class RecieveTask implements ITask {
           break;
         }
         //区分udp还是kcp消息
-        if (kcp.getChannelConfig().KcpTag && byteBuf.readByte() == Ukcp.UNORDERED_UNRELIABLE_PROTOCOL) {
+        if (kcp.getChannelConfig().kcpTag && byteBuf.readByte() == Ukcp.UNORDERED_UNRELIABLE_PROTOCOL) {
           readBytebuf(byteBuf, current, Ukcp.UNORDERED_UNRELIABLE_PROTOCOL);
         } else {
           hasKcpMessage = true;

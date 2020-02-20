@@ -51,7 +51,7 @@ public class KcpServer {
 
     if (channelConfig.isUseConvChannel()) {
       int convIndex = 0;
-      if (channelConfig.KcpTag) {
+      if (channelConfig.kcpTag) {
         convIndex += Ukcp.KCP_TAG;
       }
       if (channelConfig.getFecDataShardCount() != 0 && channelConfig.getFecParityShardCount() != 0) {

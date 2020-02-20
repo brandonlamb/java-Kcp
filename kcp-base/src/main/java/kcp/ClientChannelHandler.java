@@ -13,7 +13,7 @@ import io.netty.channel.socket.DatagramPacket;
  */
 public class ClientChannelHandler extends ChannelInboundHandlerAdapter {
 
-  static final Logger logger = LoggerFactory.getLogger(ClientChannelHandler.class);
+  private static final Logger logger = LoggerFactory.getLogger(ClientChannelHandler.class);
 
   private IChannelManager channelManager;
 

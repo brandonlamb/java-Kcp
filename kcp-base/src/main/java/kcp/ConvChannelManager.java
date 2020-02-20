@@ -30,12 +30,12 @@ public class ConvChannelManager implements IChannelManager {
   }
 
   @Override
-  public void New(SocketAddress socketAddress, Ukcp ukcp) {
+  public void add(SocketAddress socketAddress, Ukcp ukcp) {
     ukcpMap.put(ukcp.getConv(), ukcp);
   }
 
   @Override
-  public void del(Ukcp ukcp) {
+  public void remove(Ukcp ukcp) {
     ukcpMap.remove(ukcp.getConv());
   }
 

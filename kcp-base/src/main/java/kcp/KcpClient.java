@@ -33,7 +33,7 @@ public class KcpClient {
   public void init(ChannelConfig channelConfig) {
     if (channelConfig.isUseConvChannel()) {
       int convIndex = 0;
-      if (channelConfig.KcpTag) {
+      if (channelConfig.kcpTag) {
         convIndex += Ukcp.KCP_TAG;
       }
       if (channelConfig.getFecDataShardCount() != 0 && channelConfig.getFecParityShardCount() != 0) {
@@ -114,7 +114,7 @@ public class KcpClient {
         ukcp.getKcpListener().handleException(throwable, ukcp);
       }
     });
-    channelManager.New(localAddress, ukcp);
+    channelManager.add(localAddress, ukcp);
 
     ScheduleTask scheduleTask = new ScheduleTask(disruptorSingleExecutor, ukcp);
     DisruptorExecutorPool.scheduleHashedWheel(scheduleTask, ukcp.getInterval());

@@ -27,8 +27,12 @@ public class ServerChannelHandler extends ChannelInboundHandlerAdapter {
 
   private KcpListener kcpListener;
 
-  public ServerChannelHandler(IChannelManager channelManager, ChannelConfig channelConfig,
-                              DisruptorExecutorPool disruptorExecutorPool, KcpListener kcpListener) {
+  public ServerChannelHandler(
+    IChannelManager channelManager,
+    ChannelConfig channelConfig,
+    DisruptorExecutorPool disruptorExecutorPool,
+    KcpListener kcpListener
+  ) {
     this.channelManager = channelManager;
     this.channelConfig = channelConfig;
     this.disruptorExecutorPool = disruptorExecutorPool;
@@ -79,7 +83,7 @@ public class ServerChannelHandler extends ChannelInboundHandlerAdapter {
         newUkcp.getKcpListener().handleException(throwable, newUkcp);
       }
     });
-    channelManager.New(msg.sender(), newUkcp);
+    channelManager.add(msg.sender(), newUkcp);
     newUkcp.read(msg.content());
 
     ScheduleTask scheduleTask = new ScheduleTask(disruptorSingleExecutor, newUkcp);

@@ -71,7 +71,7 @@ public class Ukcp {
     //recieveList = new SpscLinkedQueue<>();
     int headerSize = 0;
     //init encryption
-    if (channelConfig.KcpTag) {
+    if (channelConfig.kcpTag) {
       headerSize += KCP_TAG;
     }
 
@@ -90,7 +90,7 @@ public class Ukcp {
   }
 
   private void intKcpConfig(ChannelConfig channelConfig) {
-    kcp.nodelay(channelConfig.isNodelay(), channelConfig.getInterval(), channelConfig.getFastresend(),
+    kcp.nodelay(channelConfig.isNodelay(), channelConfig.getInterval(), channelConfig.getFastResend(),
                 channelConfig.isNocwnd());
     kcp.setSndWnd(channelConfig.getSndwnd());
     kcp.setRcvWnd(channelConfig.getRcvwnd());
@@ -499,7 +499,7 @@ public class Ukcp {
     kcpListener.handleClose(this);
     this.active = false;
     //抛回网络线程处理连接删除
-    user().getChannel().eventLoop().execute(() -> channelManager.del(this));
+    user().getChannel().eventLoop().execute(() -> channelManager.remove(this));
     release();
   }
 

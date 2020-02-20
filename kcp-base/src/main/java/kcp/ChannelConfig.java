@@ -9,11 +9,11 @@ public class ChannelConfig {
   /**
    * 在协议的第一字节标记为kcp对象 用于与非可靠udp整合
    **/
-  public boolean KcpTag;
+  public boolean kcpTag;
   private int conv;
   private boolean nodelay;
   private int interval = Kcp.IKCP_INTERVAL;
-  private int fastresend;
+  private int fastResend;
   private boolean nocwnd;
   private int sndwnd = Kcp.IKCP_WND_SND;
   private int rcvwnd = Kcp.IKCP_WND_RCV;
@@ -42,7 +42,7 @@ public class ChannelConfig {
   public void nodelay(boolean nodelay, int interval, int resend, boolean nc) {
     this.nodelay = nodelay;
     this.interval = interval;
-    this.fastresend = resend;
+    this.fastResend = resend;
     this.nocwnd = nc;
   }
 
@@ -62,8 +62,8 @@ public class ChannelConfig {
     return interval;
   }
 
-  public int getFastresend() {
-    return fastresend;
+  public int getFastResend() {
+    return fastResend;
   }
 
   public boolean isNocwnd() {
@@ -175,10 +175,10 @@ public class ChannelConfig {
   }
 
   public boolean isKcpTag() {
-    return KcpTag;
+    return kcpTag;
   }
 
   public void setKcpTag(boolean kcpTag) {
-    KcpTag = kcpTag;
+    this.kcpTag = kcpTag;
   }
 }
